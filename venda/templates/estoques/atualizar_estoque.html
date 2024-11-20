@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+{% block 'dashboard' %}
+<h1 class="my-4">Atualizar Produto</h1>
+
+<form method="post" class="needs-validation" novalidate>
+    {% csrf_token %}
+    
+    <div class="row">
+       
+        <!--<div class="form-group col-md-12">
+            <label for="id_nome">Nome</label>
+            <textarea id="id_nome" name="nome" class="form-control {% if form.nome.errors %}is-invalid{% endif %}" rows="3" required>{{ form.nome.value|default_if_none:'' }}</textarea>
+            {% if form.nome.errors %}
+            <div class="invalid-feedback">{{ form.nome.errors }}</div>
+            {% endif %}
+        </div> -->
+        <div class="form-group col-md-3">
+            <label for="id_quantidade">Quantidade</label>
+            <input type="number" id="id_quantidade" name="quantidade" class="form-control {% if form.quantidade.errors %}is-invalid{% endif %}" 
+                   value="{{ form.quantidade.value|stringformat:".2f" }}" step="0.01" max="9999999.99" required>
+            {% if form.quantidade.errors %}
+            <div class="invalid-feedback">{{ form.quantidade.errors }}</div>
+            {% endif %}
+        </div>
+        
+        
+    </div>
+
+   <div class="row">
+        <div class="form-group col-md-6">
+            <label for="id_produto">Produto</label>
+            <select id="id_produto" name="produto" class="form-control {% if form.produto.errors %}is-invalid{% endif %}" required>
+                {% for produto in form.produto.field.queryset %}
+                <option value="{{ produto.pk }}" {% if produto.pk == form.produto.value %}selected{% endif %}>
+                    {{ produto.nome }}
+                </option>
+                {% endfor %}
+            </select>
+            {% if form.produto.errors %}
+            <div class="invalid-feedback">{{ form.v.errors }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <br>
+
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <a href="{% url 'listar_estoques' %}" class="btn colorprimarybtn2 ml-2">Voltar</a>
+</form>
+
+{% endblock %}
